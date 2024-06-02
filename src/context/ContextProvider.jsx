@@ -33,11 +33,11 @@ const ContextProvider = ({ children }) => {
     setResult("");
     setDisplayResult(true);
     setRecentPrompts(input);
-    
 
-    // if (input && prompt) {
-    //   setPrevPrompts((prev) => [...prev, input]);
-    // }
+
+    if (input && prompt) {
+      setPrevPrompts((prev) => [...prev, input]);
+    }
     const response = input ? await runChat(input) : await runChat(prompt);
     const boldResponse = response.split("**");
     let newArray = "";

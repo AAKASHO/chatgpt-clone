@@ -19,6 +19,7 @@ const GeminiBody = () => {
     input,
     setInput,
     messages,
+    theme,
   } = useContext(Context);
   // console.log(messages);
   // console.log(loading, "loading");
@@ -76,8 +77,13 @@ const GeminiBody = () => {
             <div>
               {messages.map((message, index) => (
                 <div key={index} className="my-10 flex items-center gap-5">
-                  <CircleUserRound size={40} className="text-softTextColor" />
-                  <p>{message}</p>
+              {index%2===0?<div className="flex items-center justify-center w-10 h-10  ">
+              <CircleUserRound size={40} className="text-softTextColor" />
+            </div>: theme=="dark"?
+            <img src="/chatgptlogobs.png" alt="" />:
+            <img src="/chatgptlogows.png" alt="" />                  
+              }
+          <p dangerouslySetInnerHTML={{ __html:  message}}></p>
                 </div>
 
               ))}
@@ -88,7 +94,11 @@ const GeminiBody = () => {
               <p>{recentPrompts}</p>
             </div> */}
             <div className="flex items-start gap-5">
-              <img src="/gemini.png" alt="" />
+              {
+                 theme=="dark"?
+                 <img src="/chatgptlogobs.png" alt="" />:
+                 <img src="/chatgptlogows.png" alt="" />   
+              }
 
               <p
                 className="text-md font-normal loading-6 text-gray-400"
@@ -113,8 +123,8 @@ const GeminiBody = () => {
             </div>
           </form>
           <p className="text-gray-400 text-sm text-center p-3">
-            Gemini may display inaccurate info, including about people, so
-            double-check its responses. Your privacy and Gemini Apps
+            ChatGpt may display inaccurate info, including about people, so
+            double-check its responses. Your privacy and Chatgpt Apps
           </p>
         </div>
       </div>
