@@ -28,8 +28,8 @@ Make sure you have the following installed on your machine:
 **Clone this Project**
 
 ```bash
-git clone https://github.com/CodeScrapper1/gemini-clone-nextjs.git
-cd gemini-clone-nextjs
+git clone https://github.com/AAKASHO/chatgpt-clone.git
+cd chatgpt-clone
 ```
 
 **Installation**
