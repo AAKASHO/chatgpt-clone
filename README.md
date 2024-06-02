@@ -1,10 +1,8 @@
 ## 🚨 Tutorial
 
-This repository contains the corresponding tutorial available on our YouTube channel, <a href="https://www.youtube.com/@CodeScrapperOfficial/videos" target="_blank"><b>Code Scrapper</b></a>.
-
 ## <a name="introduction">🤖 Introduction</a>
 
-Our Gemini AI clone is a streamlined project management tool designed to enhance productivity and team collaboration. It offers intuitive AI response interfaces for task management, customizable boards for project tracking, and seamless integration capabilities to adapt to various workflows. Ideal for individuals and teams looking for an efficient way to organize tasks and projects.
+My Chatgpt clone is a streamlined project management tool designed to enhance productivity and team collaboration. It offers intuitive AI response interfaces for task management, customizable boards for project tracking, and seamless integration capabilities to adapt to various workflows. Ideal for individuals and teams looking for an efficient way to organize tasks and projects.
 
 ## <a name="tech-stack">Tech Stack</a>
 
@@ -13,6 +11,7 @@ Our Gemini AI clone is a streamlined project management tool designed to enhance
 - Shadcn
 - Tailwind Css
 - Gemini Ai
+- supabase
 
 ## <a name="quick-start">Integration and Installation Process</a>
 
