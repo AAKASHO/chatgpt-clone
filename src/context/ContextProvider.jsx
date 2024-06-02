@@ -3,6 +3,8 @@ import runChat from "@/lib/gemini";
 import React, { createContext, useEffect, useState } from "react";
 // import supabase from '';
 import { createClient } from "@/utils/supabase/client";
+import { createMessage, fetchChatHistory } from "@/lib/chat";
+// import { useRouter } from "next/router";
 
 
 export const Context = createContext();
@@ -24,18 +26,28 @@ const ContextProvider = ({ children }) => {
     }, 70 * index);
   };
   // on submit
+  console.log(messages);
   const submit = async (prompt) => {
-    console.log(prompt);
+
     setLoading(true);
-    if(result)setMessages((pre)=>[...pre,result]);
-    setMessages((pre)=>[...pre,input]);
+    if(result)setMessages((pre)=>[...pre,{content:result,role:"ai"}]);
+    setMessages((pre)=>[...pre,{content:input,role:"user"}]);
+    setInput("");
     // setMessages((pre)=>[...pre,result]);
     setResult("");
     setDisplayResult(true);
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+      // console.log(searchParams);
+    const chatId = searchParams.get('chat_id');
+    console.log(chatId);
+    // console.log(chatId)
+    const currentDate=new Date().toISOString();
+
+    await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
 
-
-    if (input && prompt) {
+    if (input) {
       setPrevPrompts((prev) => [...prev, input]);
     }
     const response = input ? await runChat(input) : await runChat(prompt);
@@ -50,6 +62,8 @@ const ContextProvider = ({ children }) => {
     }
     let newRes = newArray.split("*").join("</br>");
     let newRes2 = newRes.split(" ");
+    const currentDatetime=new Date().toISOString();
+    await createMessage('ai', newRes,chatId,currentDatetime);
 
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
@@ -57,23 +71,19 @@ const ContextProvider = ({ children }) => {
     }
     // console.log(messages);
     setLoading(false);
-    setInput("");
   };
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (currentChatId) {
-        const { data } = await createClient
-          .from('Messages')
-          .select('*')
-          .eq('chat_id', currentChatId)
-          .order('created_at', { ascending: true });
-        setMessages(data);
-      }
-    };
-    fetchMessages();
-  }, [currentChatId]);
-
+  const fetchMessages = async () => {
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+      // console.log(searchParams);
+    const chatId = searchParams.get('chat_id');
+    if (chatId) {
+      const data=await fetchChatHistory(chatId);
+      console.log(data);
+      setMessages(data);
+    }
+  };
 
 
 
@@ -96,6 +106,8 @@ const ContextProvider = ({ children }) => {
     prevPrompts,
     messages,
     setDisplayResult,
+    setCurrentChatId,
+    fetchMessages,
   };
   return (
     <Context.Provider value={contextValue}>

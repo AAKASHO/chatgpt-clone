@@ -20,6 +20,12 @@ export async function GET(request) {
       type,
       token_hash,
     })
+    const currentDate = new Date().toISOString();
+    const { data: { user } } = await supabase.auth.getUser();
+    const { data, err } = await supabase
+    .from('users')
+    .insert([{ email:user.email, id: user.id,createdat: currentDate}]);
+
     if (!error) {
       redirectTo.searchParams.delete('next')
       return NextResponse.redirect(redirectTo)

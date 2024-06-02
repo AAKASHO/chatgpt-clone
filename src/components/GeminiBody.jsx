@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   CircleUserRound,
   Compass,
@@ -9,6 +9,10 @@ import {
   SendHorizontal,
 } from "lucide-react";
 import { Context } from "@/context/ContextProvider";
+import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
+
+
 const GeminiBody = () => {
   const {
     submit,
@@ -20,7 +24,45 @@ const GeminiBody = () => {
     setInput,
     messages,
     theme,
+    fetchMessages
   } = useContext(Context);
+
+  const [ChatId,setChatId]=useState(null);
+
+  const router = useRouter();
+  const [messageSent, setMessageSent] = useState(false);
+
+  useEffect(()=>{
+    console.log(messageSent);
+    console.log(ChatId);
+    if(messageSent&&ChatId){
+      submit();
+      setMessageSent(false);
+    }
+  },[messageSent])
+
+  useEffect(()=>{
+    fetchMessages();
+  },[ChatId]);
+
+
+  const handleMessageSend = () => {
+    // e.preventDefault();
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const chatId = searchParams.get("chat_id");
+
+    if (!chatId) {
+      const newChatId = uuidv4();
+      router.push(`/?chat_id=${newChatId}`);
+      setChatId(newChatId);
+      setMessageSent(true);
+    }
+    else{
+      submit();
+    }
+  };
+
   // console.log(messages);
   // console.log(loading, "loading");
   return (
@@ -30,7 +72,7 @@ const GeminiBody = () => {
         <CircleUserRound size={40} className="text-softTextColor" />
       </div>
       <div className="max-w-[900px] m-auto">
-        {!displayResult ? (
+        {!displayResult&&messages.length<=0 ? (
 
           <>
             <div className="my-12 text-5xl font-medium p-5">
@@ -73,17 +115,32 @@ const GeminiBody = () => {
             </div>
           </>
         ) : (
-          <div className="overflow-y-auto max-h-[75vh] scrollbar-hide" style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}>
+          <div className="overflow-y-auto max-h-[75vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div>
               {messages.map((message, index) => (
                 <div key={index} className="my-10 flex items-center gap-5">
-              {index%2===0?<div className="flex items-center justify-center w-10 h-10  ">
+              {message.role==="user"?
+              <div className="flex items-start gap-5">
+                <div className="flex items-center justify-center w-10 h-10  ">
               <CircleUserRound size={40} className="text-softTextColor" />
-            </div>: theme=="dark"?
+              {/* <p dangerouslySetInnerHTML={{ __html:  message.content}}></p> */}
+            </div>
+                <p
+                className="text-md font-normal loading-6 text-gray-400"
+                dangerouslySetInnerHTML={{ __html: message.content }}
+                ></p>
+                </div>
+            :
+            <div className="flex items-start gap-5">
+             {theme=="dark"?
             <img src="/chatgptlogobs.png" alt="" />:
-            <img src="/chatgptlogows.png" alt="" />                  
+            <img src="/chatgptlogows.png" alt="" />}
+            <p
+                className="text-md font-normal loading-6 text-gray-400"
+                dangerouslySetInnerHTML={{ __html: message.content }}
+              ></p> 
+            </div>                 
               }
-          <p dangerouslySetInnerHTML={{ __html:  message}}></p>
                 </div>
 
               ))}
@@ -93,7 +150,7 @@ const GeminiBody = () => {
               <CircleUserRound size={40} className="text-softTextColor" />
               <p>{recentPrompts}</p>
             </div> */}
-            <div className="flex items-start gap-5">
+            {displayResult&&<div className="flex items-start gap-5">
               {
                  theme=="dark"?
                  <img src="/chatgptlogobs.png" alt="" />:
@@ -104,11 +161,11 @@ const GeminiBody = () => {
                 className="text-md font-normal loading-6 text-gray-400"
                 dangerouslySetInnerHTML={{ __html: result }}
               ></p>
-            </div>
+            </div>}
           </div>
         )}
         <div className="absolute bottom-0 w-full max-w-[900px] px-5 m-auto">
-          <form action={submit}>
+          <form action={handleMessageSend}>
             <div className="flex items-center justify-between gap-5 bg-bgSecondaryColor py-2.5 px-5 rounded-full">
               <input
                 onChange={(e) => setInput(e.target.value)}
