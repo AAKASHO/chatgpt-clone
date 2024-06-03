@@ -36,13 +36,16 @@ const GeminiBody = () => {
     console.log(messageSent);
     console.log(ChatId);
     if(messageSent&&ChatId){
+      // fetchMessages();
       submit();
       setMessageSent(false);
     }
   },[messageSent])
 
   useEffect(()=>{
+    if(ChatId&&!messageSent)
     fetchMessages();
+
   },[ChatId]);
 
 
@@ -55,8 +58,8 @@ const GeminiBody = () => {
     if (!chatId) {
       const newChatId = uuidv4();
       router.push(`/?chat_id=${newChatId}`);
-      setChatId(newChatId);
       setMessageSent(true);
+      setChatId(newChatId);
     }
     else{
       submit();
