@@ -114,6 +114,7 @@ const ContextProvider = ({ children }) => {
     fetchMessages,
     fetchChats,
     setResult,
+    setMessages
   };
   return (
     <Context.Provider value={contextValue}>

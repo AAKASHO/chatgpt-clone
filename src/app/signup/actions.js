@@ -24,4 +24,18 @@ export async function signup(formData) {
     // revalidatePath('/', 'layout');
     // redirect('/');
   }
+
+  export async function signInWithGoogle() {
+
+    const supabase = createClient();
+    console.log("google");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+  
+    if (error) {
+      console.error('Error during sign-in:', error);
+    }
+  }
+
   

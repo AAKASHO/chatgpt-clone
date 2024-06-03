@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { signup } from './actions.js'
+import { signInWithGoogle, signup } from './actions.js'
+import { createClient } from '@/utils/supabase/client';
 
 export default function LoginPage() {
 
@@ -14,8 +15,20 @@ export default function LoginPage() {
     return null;
   }
 
-  const handleGoogleLogin = () => {
-    window.location.href = '/login-google';
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    console.log("googlelog")
+    console.log("google");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `http://localhost:3000/auth/v1/callback`,
+      },
+    });
+  
+    if (error) {
+      console.error('Error during sign-in:', error);
+    }
   };
 
   const handleEmailSignup = (event) => {
@@ -24,7 +37,7 @@ export default function LoginPage() {
     console.log("evenr");
     console.log(event);
     signup(event);
-    // window.location.href="/email"
+    window.location.href="/email"
     // Handle email login logic here
   };
 
@@ -48,10 +61,12 @@ export default function LoginPage() {
         <div className="divider">
           <span>or</span>
         </div>
-        <button className="google-login-button">
-          {/* <img src="./chatgptlogows" alt="Google Logo" /> */}
+        {/* <form > */}
+        <button className="google-login-button" onClick={handleGoogleLogin}>
         sign up with Google
         </button>
+        {/* </form> */}
+          {/* <img src="./chatgptlogows" alt="Google Logo" /> */}
       </div>
     </div>
 

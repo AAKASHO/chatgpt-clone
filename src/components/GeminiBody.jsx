@@ -29,6 +29,7 @@ const GeminiBody = () => {
     theme,
     fetchMessages,
     setPrevPrompts,
+    setMessages,
   } = useContext(Context);
 
   const [ChatId,setChatId]=useState(null);
@@ -53,8 +54,11 @@ const search = searchParams.get('chat_id');
 // console.log("search");
 
   useEffect(()=>{
-    if(!messageSent)
+    if(!messageSent){
       fetchMessages();
+      // setMessages([]);
+    }
+      
 
   },[search]);
 
@@ -150,7 +154,7 @@ const search = searchParams.get('chat_id');
             <img src="/chatgptlogobs.png" alt="" />:
             <img src="/chatgptlogows.png" alt="" />}
             <p
-                className="text-md font-normal loading-6 text-gray-400"
+                className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"}`}
                 dangerouslySetInnerHTML={{ __html: message.content }}
               ></p> 
             </div>                 
@@ -172,7 +176,7 @@ const search = searchParams.get('chat_id');
               }
 
               <p
-                className="text-md font-normal loading-6 text-gray-400"
+                className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"}`}
                 dangerouslySetInnerHTML={{ __html: result }}
               ></p>
             </div>}
@@ -185,7 +189,7 @@ const search = searchParams.get('chat_id');
                 onChange={(e) => setInput(e.target.value)}
                 value={input}
                 type="text"
-                className="flex-1 bg-transparent border-none outline-none p-2 text-md text-gray-400"
+                className={`flex-1 bg-transparent border-none outline-none p-2 text-md ${theme === "dark" ? "text-gray-400" : "text-black"}`}
                 placeholder="Enter a prompt here"
               />
               <div className="flex cursor-pointer">

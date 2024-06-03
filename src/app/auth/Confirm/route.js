@@ -4,7 +4,6 @@ import { createClient } from '@/utils/supabase/server'
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const token_hash = searchParams.get('token_hash')
-  console.log(token_hash);
   const type = searchParams.get('type')
   const next = searchParams.get('next') ?? '/'
 
@@ -16,20 +15,52 @@ export async function GET(request) {
   if (token_hash && type) {
     const supabase = createClient()
 
-    const { error } = await supabase.auth.verifyOtp({
+    // Verify the OTP
+    const { data, error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
-    // const currentDate = new Date().toISOString();
+
     if (!error) {
+      const user = data.user
+      
+      // Check if the user exists in the `users` table
+      const { data: existingUser, error: userCheckError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', user.id)
+        .single()
+
+      if (userCheckError && userCheckError.code !== 'PGRST116') { // 'PGRST116' means no rows found
+        console.error('Error checking user existence:', userCheckError.message)
+        redirectTo.pathname = '/error'
+        return NextResponse.redirect(redirectTo)
+      }
+
+      // If the user does not exist, insert them into the `users` table
+      if (!existingUser) {
+        const { error: insertError } = await supabase.from('users').insert([
+          {
+            id: user.id,
+            email: user.email,
+          },
+        ])
+
+        if (insertError) {
+          console.error('Error inserting new user:', insertError.message)
+          redirectTo.pathname = '/error'
+          return NextResponse.redirect(redirectTo)
+        }
+      }
+
       redirectTo.searchParams.delete('next')
       return NextResponse.redirect(redirectTo)
     }
+
+    console.error('Error verifying OTP:', error.message)
   }
 
-  // return the user to an error page with some instructions
-  console.log("error");
-  console.log(error);
-  // redirectTo.pathname = '/error'
+  // Redirect to an error page if OTP verification fails
+  redirectTo.pathname = '/error'
   return NextResponse.redirect(redirectTo)
 }

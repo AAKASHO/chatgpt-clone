@@ -14,7 +14,7 @@ import { redirect, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit,fetchChats,setResult } =
+  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit,fetchChats,setResult,setMessages } =
     useContext(Context);
 
     const router = useRouter();
@@ -43,8 +43,10 @@ const Sidebar = () => {
           className="mt-2.5 inline-flex py-2.5 items-center gap-2.5 px-4 bg-bgPrimaryColor rounded-full text-md text-gray-400 cursor-pointer"
           onClick={() => {
             setDisplayResult(false);
+            setResult(null);
             setInput("");
-            window.location.href="/"
+            router.push(`/`);
+            setMessages([]);
           }}
         >
           <Plus size={20} className="cursor-pointer text-softTextColor" />
