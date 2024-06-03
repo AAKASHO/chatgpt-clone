@@ -44,7 +44,7 @@ const ContextProvider = ({ children }) => {
     // console.log(chatId)
     const currentDate=new Date().toISOString();
 
-    // await createMessage('user', input,chatId,currentDate);
+    await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
 
     if (input) {
