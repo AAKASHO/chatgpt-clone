@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { Context } from "@/context/ContextProvider";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +23,11 @@ const Sidebar = () => {
       fetchChats();
     },[]);
   const loadPrompt = (prompt) => {
+    // window.location.href=`/?chat_id=${prompt?.id}`;
+    // redirect(``)
+
     router.push(`/?chat_id=${prompt?.id}`);
+    
   };
   return (
     <div className="min-h-[100vh] inline-flex flex-col justify-between bg-bgSecondaryColor py-6 px-4">

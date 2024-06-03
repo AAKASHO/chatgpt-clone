@@ -24,36 +24,60 @@
 
 :root {
   min-height: 100vh;
+  min-width: 100vh;
 }
 
-body {
+body .flexer {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  width: 100vh;
+}
+
+
+.flexer{
+  /* font-family: Arial, sans-serif; */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
+  width: 100vh;
+
 }
 
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
   width: 100%;
 }
 
-.login-box {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
+.login-container img {
+  height: 8vh; /* Adjust the value as needed */
 }
 
-.login-box h2 {
+
+.login-box {
+  /* background: white; */
+  padding: 2rem;
+  border-radius: 8px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  width: 50vh;
+  text-align: center;
+  margin-top: 15vh;
+}
+
+.login-box h1 {
   margin-bottom: 1.5rem;
+  font-size: 4.5vh;
+  font-weight: bolder;
 }
 
 .input-group {
@@ -84,7 +108,7 @@ body {
 }
 
 .login-button {
-  background-color: #4CAF50;
+  background-color: #2d9175;
   color: white;
 }
 

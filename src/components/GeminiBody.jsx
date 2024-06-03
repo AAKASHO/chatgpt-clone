@@ -12,6 +12,9 @@ import { Context } from "@/context/ContextProvider";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 
+import { useSearchParams } from 'next/navigation'
+
+
 
 const GeminiBody = () => {
   const {
@@ -43,6 +46,9 @@ const GeminiBody = () => {
     }
   },[messageSent])
 
+  const searchParams = useSearchParams()
+
+
   useEffect(() => {
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
@@ -52,12 +58,16 @@ const GeminiBody = () => {
       // fetchMessages();
     }
   }, [window.location.search]);
+  
+  // const searchParams = useSearchParams();
+
+const search = searchParams.get('chat_id');
 
   useEffect(()=>{
     if(ChatId&&!messageSent)
-    fetchMessages();
+      fetchMessages();
 
-  },[ChatId]);
+  },[search,ChatId]);
 
 
   const handleMessageSend = () => {
@@ -81,7 +91,7 @@ const GeminiBody = () => {
   // console.log(messages);
   // console.log(loading, "loading");
   return (
-    <div className="flex-1 min-h-[100vh] pb-[15vh] relative">
+    <div className="flex-1 min-w-[100vh] pb-[15vh] relative">
       <div className="flex items-center justify-between p-5 text-xl text-gray-400">
         <p>ChatGpt</p>
         <CircleUserRound size={40} className="text-softTextColor" />

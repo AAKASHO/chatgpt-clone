@@ -26,7 +26,7 @@ const ContextProvider = ({ children }) => {
     }, 70 * index);
   };
   // on submit
-  console.log(messages);
+  // console.log(messages);
   const submit = async (prompt) => {
 
     setLoading(true);
@@ -40,10 +40,10 @@ const ContextProvider = ({ children }) => {
     const searchParams = new URLSearchParams(queryString);
       // console.log(searchParams);
     const chatId = searchParams.get('chat_id');
-    console.log(chatId);
+    // console.log(chatId);
     // console.log(chatId)
     const currentDate=new Date().toISOString();
-    console.log("print1")
+    // console.log("print1")
 
     await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
@@ -78,14 +78,14 @@ const ContextProvider = ({ children }) => {
     const chatId = searchParams.get('chat_id');
     if (chatId) {
       const data=await fetchChatHistory(chatId);
-      console.log(data);
+      // console.log(data);
       setMessages(data);
     }
   };
 
   const fetchChats = async () => {
       const data=await fetchHistory();
-      console.log(data);
+      // console.log(data);
       setPrevPrompts(data);
   };
 

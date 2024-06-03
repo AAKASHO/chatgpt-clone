@@ -20,12 +20,7 @@ export async function GET(request) {
       type,
       token_hash,
     })
-    const currentDate = new Date().toISOString();
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data, err } = await supabase
-    .from('users')
-    .insert([{ email:user.email, id: user.id,createdat: currentDate}]);
-
+    // const currentDate = new Date().toISOString();
     if (!error) {
       redirectTo.searchParams.delete('next')
       return NextResponse.redirect(redirectTo)
@@ -33,6 +28,8 @@ export async function GET(request) {
   }
 
   // return the user to an error page with some instructions
-  redirectTo.pathname = '/error'
+  console.log("error");
+  console.log(error);
+  // redirectTo.pathname = '/error'
   return NextResponse.redirect(redirectTo)
 }
