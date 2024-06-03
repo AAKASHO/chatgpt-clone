@@ -78,11 +78,11 @@ const ContextProvider = ({ children }) => {
     const searchParams = new URLSearchParams(queryString);
       // console.log(searchParams);
     const chatId = searchParams.get('chat_id');
-    if (chatId) {
-      const data=await fetchChatHistory(chatId);
-      console.log(data);
-      setMessages(data);
-    }
+    // if (chatId) {
+    //   const data=await fetchChatHistory(chatId);
+    //   console.log(data);
+    //   setMessages(data);
+    // }
   };
 
 
