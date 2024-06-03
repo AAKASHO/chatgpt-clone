@@ -44,7 +44,7 @@ const ContextProvider = ({ children }) => {
     // console.log(chatId)
     const currentDate=new Date().toISOString();
 
-    await createMessage('user', input,chatId,currentDate);
+    // await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
 
     if (input) {
@@ -63,7 +63,7 @@ const ContextProvider = ({ children }) => {
     let newRes = newArray.split("*").join("</br>");
     let newRes2 = newRes.split(" ");
     const currentDatetime=new Date().toISOString();
-    await createMessage('ai', newRes,chatId,currentDatetime);
+    // await createMessage('ai', newRes,chatId,currentDatetime);
 
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
