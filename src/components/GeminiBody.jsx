@@ -24,7 +24,8 @@ const GeminiBody = () => {
     setInput,
     messages,
     theme,
-    fetchMessages
+    fetchMessages,
+    setPrevPrompts,
   } = useContext(Context);
 
   const [ChatId,setChatId]=useState(null);
@@ -41,6 +42,16 @@ const GeminiBody = () => {
       setMessageSent(false);
     }
   },[messageSent])
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const chatId = searchParams.get("chat_id");
+    if (chatId) {
+      setChatId(chatId);
+      // fetchMessages();
+    }
+  }, [window.location.search]);
 
   useEffect(()=>{
     if(ChatId&&!messageSent)
@@ -60,6 +71,7 @@ const GeminiBody = () => {
       router.push(`/?chat_id=${newChatId}`);
       setMessageSent(true);
       setChatId(newChatId);
+      setPrevPrompts((pre)=>[{id:newChatId,message:input},...pre]);
     }
     else{
       submit();
@@ -118,7 +130,7 @@ const GeminiBody = () => {
             </div>
           </>
         ) : (
-          <div className="overflow-y-auto max-h-[75vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="overflow-y-auto max-h-[73vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div>
               {messages.map((message, index) => (
                 <div key={index} className="my-10 flex items-center gap-5">

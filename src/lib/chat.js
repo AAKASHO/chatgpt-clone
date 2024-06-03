@@ -23,7 +23,7 @@ export const createMessage = async (role, content, chatId,time) => {
       // If chatId does not exist, create a new chat entry
       const { data: newChatData, error: newChatError } = await supabase
         .from('chats')
-        .insert([{ id: chatId, user_id: user.id,message:content}]);
+        .insert([{ id: chatId, user_id: user?.id,message:content}]);
         
   
       if (newChatError) {
@@ -32,7 +32,7 @@ export const createMessage = async (role, content, chatId,time) => {
     }
     const { data, error } = await supabase
     .from('messages')
-    .insert([{ role, content, chat_id: chatId, user_id: user.id,created_at: time}]);
+    .insert([{ role, content, chat_id: chatId, user_id: user?.id,created_at: time}]);
 
     console.log("called3");
   // if (error) {
@@ -51,6 +51,21 @@ export const fetchChatHistory = async (chatId) => {
     .eq('user_id', user.id)
     .eq('chat_id', chatId)
     .order('created_at', { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+export const fetchHistory = async () => {
+    const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from('chats')
+    .select('*')
+    .eq('user_id', user?.id)
+    .order('created_at', { ascending: false });
 
   if (error) {
     throw new Error(error.message);

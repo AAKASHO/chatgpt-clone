@@ -3,7 +3,7 @@ import runChat from "@/lib/gemini";
 import React, { createContext, useEffect, useState } from "react";
 // import supabase from '';
 import { createClient } from "@/utils/supabase/client";
-import { createMessage, fetchChatHistory } from "@/lib/chat";
+import { createMessage, fetchChatHistory, fetchHistory } from "@/lib/chat";
 // import { useRouter } from "next/router";
 
 
@@ -43,13 +43,10 @@ const ContextProvider = ({ children }) => {
     console.log(chatId);
     // console.log(chatId)
     const currentDate=new Date().toISOString();
+    console.log("print1")
 
     await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
-
-    if (input) {
-      setPrevPrompts((prev) => [...prev, input]);
-    }
     const response = input ? await runChat(input) : await runChat(prompt);
     const boldResponse = response.split("**");
     let newArray = "";
@@ -63,7 +60,8 @@ const ContextProvider = ({ children }) => {
     let newRes = newArray.split("*").join("</br>");
     let newRes2 = newRes.split(" ");
     const currentDatetime=new Date().toISOString();
-    // await createMessage('ai', newRes,chatId,currentDatetime);
+    console.log("print2")
+    await createMessage('ai', newRes,chatId,currentDatetime);
 
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
@@ -78,11 +76,17 @@ const ContextProvider = ({ children }) => {
     const searchParams = new URLSearchParams(queryString);
       // console.log(searchParams);
     const chatId = searchParams.get('chat_id');
-    // if (chatId) {
-    //   const data=await fetchChatHistory(chatId);
-    //   console.log(data);
-    //   setMessages(data);
-    // }
+    if (chatId) {
+      const data=await fetchChatHistory(chatId);
+      console.log(data);
+      setMessages(data);
+    }
+  };
+
+  const fetchChats = async () => {
+      const data=await fetchHistory();
+      console.log(data);
+      setPrevPrompts(data);
   };
 
 
@@ -108,6 +112,7 @@ const ContextProvider = ({ children }) => {
     setDisplayResult,
     setCurrentChatId,
     fetchMessages,
+    fetchChats
   };
   return (
     <Context.Provider value={contextValue}>

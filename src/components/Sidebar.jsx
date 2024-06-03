@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Menu,
   Plus,
@@ -10,15 +10,20 @@ import {
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { Context } from "@/context/ContextProvider";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit } =
+  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit,fetchChats } =
     useContext(Context);
 
+    const router = useRouter();
+
+    useEffect(()=>{
+      fetchChats();
+    },[]);
   const loadPrompt = (prompt) => {
-    setRecentPrompts(prompt);
-    submit(prompt);
+    router.push(`/?chat_id=${prompt?.id}`);
   };
   return (
     <div className="min-h-[100vh] inline-flex flex-col justify-between bg-bgSecondaryColor py-6 px-4">
@@ -41,19 +46,22 @@ const Sidebar = () => {
         {isOpen ? (
           <div className="flex flex-col">
             <p className="mt-8 mb-5">Recent</p>
+            <div className="overflow-y-auto max-h-[55vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+
             {prevPrompts?.map((item, index) => (
               <div
-                key={index}
-                onClick={() => loadPrompt(item)}
-                className="my-2 flex items-center gap-2.5 pr-10 rounded-full text-gray-700 cursor-pointer hover:bg-slate-200 p-2 bg-bgPrimaryColor"
+              key={index}
+              onClick={() => loadPrompt(item)}
+              className="my-2 flex items-center gap-2.5 pr-10 rounded-full text-gray-700 cursor-pointer hover:bg-slate-200 p-2 bg-bgPrimaryColor"
               >
                 <MessageSquare
                   size={20}
                   className="cursor-pointer text-softTextColor"
-                />
-                <p>{item?.slice(0, 15)}...</p>
+                  />
+                <p>{item?.message?.slice(0, 15)}...</p>
               </div>
             ))}
+            </div>
           </div>
         ) : null}
       </div>
