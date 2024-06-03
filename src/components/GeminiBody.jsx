@@ -46,28 +46,17 @@ const GeminiBody = () => {
     }
   },[messageSent])
 
-  const searchParams = useSearchParams()
-
-
-  useEffect(() => {
-    const queryString = window.location.search;
-    const searchParams = new URLSearchParams(queryString);
-    const chatId = searchParams.get("chat_id");
-    if (chatId) {
-      setChatId(chatId);
-      // fetchMessages();
-    }
-  }, [window.location.search]);
-  
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
 const search = searchParams.get('chat_id');
+// console.log(search)
+// console.log("search");
 
   useEffect(()=>{
-    if(ChatId&&!messageSent)
+    if(!messageSent)
       fetchMessages();
 
-  },[search,ChatId]);
+  },[search]);
 
 
   const handleMessageSend = () => {

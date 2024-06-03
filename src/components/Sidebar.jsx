@@ -14,7 +14,7 @@ import { redirect, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit,fetchChats } =
+  const { setDisplayResult, setInput, prevPrompts, setRecentPrompts, submit,fetchChats,setResult } =
     useContext(Context);
 
     const router = useRouter();
@@ -27,6 +27,8 @@ const Sidebar = () => {
     // redirect(``)
 
     router.push(`/?chat_id=${prompt?.id}`);
+    setResult(null);
+    setDisplayResult(false);
     
   };
   return (
@@ -42,6 +44,7 @@ const Sidebar = () => {
           onClick={() => {
             setDisplayResult(false);
             setInput("");
+            window.location.href="/"
           }}
         >
           <Plus size={20} className="cursor-pointer text-softTextColor" />

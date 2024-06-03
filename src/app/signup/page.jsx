@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { signup } from './actions'
+import { signup } from './actions.js'
 
 export default function LoginPage() {
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" name="password" required />
           </div>
-          <button type="submit" className="login-button" formAction={handleEmailSignup}>signup with Email</button>
+          <button type="submit" className="login-button" formAction={signup}>signup with Email</button>
         </form>
         <div className="divider">
           <span>or</span>
