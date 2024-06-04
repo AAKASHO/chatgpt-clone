@@ -1,6 +1,9 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { signInWithGoogle, signup } from './actions.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
 import { createClient } from '@/utils/supabase/client';
 
 export default function LoginPage() {
@@ -14,6 +17,7 @@ export default function LoginPage() {
   if (!isClient) {
     return null;
   }
+
 
   const handleGoogleLogin = async () => {
     const supabase = createClient();
@@ -59,11 +63,17 @@ export default function LoginPage() {
           </div>
           <button type="submit" className="login-button" formAction={signup}>signup with Email</button>
         </form>
+        <div>
+          <br />
+        Already have an account? <a href="/login" className='text-green-700'>login</a>
+        </div>
         <div className="divider">
           <span>or</span>
         </div>
+
         {/* <form > */}
         <button className="google-login-button" onClick={handleGoogleLogin}>
+        <FontAwesomeIcon icon={faGoogle} className="w-5 h-5 mr-2" />
         sign up with Google
         </button>
         {/* </form> */}

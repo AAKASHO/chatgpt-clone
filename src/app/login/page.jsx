@@ -1,6 +1,10 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { login, signup } from './actions'
+import { createClient } from '@/utils/supabase/client';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 export default function LoginPage() {
 
@@ -14,9 +18,22 @@ export default function LoginPage() {
     return null;
   }
 
-  const handleGoogleLogin = () => {
-    window.location.href = '/login-google';
-  };
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    const baseUrl = window.location.origin; // Get the base URL dynamically
+    console.log("googlelog");
+    console.log("google");
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: `${baseUrl}/auth/v1/callback`, // Use the dynamic base URL
+        },
+    });
+
+    if (error) {
+        console.error('Error during Google login:', error.message);
+    }
+};
 
   const handleEmailLogin = (event) => {
     event.preventDefault();
@@ -41,11 +58,15 @@ export default function LoginPage() {
           </div>
           <button type="submit" className="login-button" formAction={login}>Login with Email</button>
         </form>
+        <div>
+          <br />
+        Dont have an account? <a href="/signup" className='text-green-700'>signup</a>
+        </div>
         <div className="divider">
           <span>or</span>
         </div>
-        <button className="google-login-button">
-          {/* <img src="./chatgptlogows" alt="Google Logo" /> */}
+        <button className="google-login-button" onClick={handleGoogleLogin}>
+        <FontAwesomeIcon icon={faGoogle} className="w-5 h-5 mr-2" />
           Login with Google
         </button>
       </div>

@@ -100,7 +100,7 @@ body .flexer {
 .login-button, .google-login-button {
   width: 100%;
   padding: 0.75rem;
-  border: none;
+  border: 1px solid #787878;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
@@ -113,8 +113,8 @@ body .flexer {
 }
 
 .google-login-button {
-  background-color: #4285F4;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,7 +126,7 @@ body .flexer {
 }
 
 .google-login-button:hover {
-  background-color: #357AE8;
+  background-color: #b0b0b1;
 }
 
 .login-button:hover {
