@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { login, signup } from './actions'
 import { createClient } from '@/utils/supabase/client';
+import Image from 'next/image'
 
 export default function LoginPage() {
 
@@ -41,7 +42,13 @@ export default function LoginPage() {
 
 <div className='flex justify-center items-center bg-white font-sans h-screen w-screen m-0'>
 <div className="login-container">
-  <img src="./chatgptlogo.png" alt="" />
+<Image
+          src="/chatgptlogo.png"
+          alt="Landscape picture"
+          width={57}
+          height={60}
+        />
+  {/* <img src="./chatgptlogo.png" alt="" /> */}
       <div className="login-box">
         <h1>Welcome back</h1>
         <form>
@@ -63,7 +70,12 @@ export default function LoginPage() {
           <span>or</span>
         </div>
         <button className="google-login-button" onClick={handleGoogleLogin}>
-        <img src="./googlelogo.gif" alt="Google Logo" />
+        <Image
+          src="/googlelogo.gif"
+          alt="Landscape picture"
+          width={20}
+          height={20}
+        />
           Login with Google
         </button>
       </div>
