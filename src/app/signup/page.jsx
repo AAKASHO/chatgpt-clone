@@ -17,19 +17,20 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     const supabase = createClient();
-    console.log("googlelog")
+    const baseUrl = window.location.origin; // Get the base URL dynamically
+    console.log("googlelog");
     console.log("google");
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `http://localhost:3000/auth/v1/callback`,
-      },
+        provider: 'google',
+        options: {
+            redirectTo: `${baseUrl}/auth/v1/callback`, // Use the dynamic base URL
+        },
     });
-  
+
     if (error) {
-      console.error('Error during sign-in:', error);
+        console.error('Error during Google login:', error.message);
     }
-  };
+};
 
   const handleEmailSignup = (event) => {
     // event.preventDefault();
