@@ -1,8 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { signInWithGoogle, signup } from './actions.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 import { createClient } from '@/utils/supabase/client';
 
@@ -73,11 +71,11 @@ export default function LoginPage() {
 
         {/* <form > */}
         <button className="google-login-button" onClick={handleGoogleLogin}>
-        <FontAwesomeIcon icon={faGoogle} className="w-5 h-5 mr-2" />
+        {/* <FontAwesomeIcon icon={faGoogle} className="w-5 h-5 mr-2" /> */}
+          <img src="./googlelogo.gif" alt="Google Logo" />
         sign up with Google
         </button>
         {/* </form> */}
-          {/* <img src="./chatgptlogows" alt="Google Logo" /> */}
       </div>
     </div>
 

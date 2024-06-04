@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react';
 import { login, signup } from './actions'
 import { createClient } from '@/utils/supabase/client';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-
 export default function LoginPage() {
 
   const [isClient, setIsClient] = useState(false);
@@ -66,7 +63,7 @@ export default function LoginPage() {
           <span>or</span>
         </div>
         <button className="google-login-button" onClick={handleGoogleLogin}>
-        <FontAwesomeIcon icon={faGoogle} className="w-5 h-5 mr-2" />
+        <img src="./googlelogo.gif" alt="Google Logo" />
           Login with Google
         </button>
       </div>
