@@ -19,6 +19,7 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     const supabase = createClient();
     const baseUrl = window.location.origin; // Get the base URL dynamically
+    console.log(baseUrl);
     console.log("googlelog");
     console.log("google");
     const { error } = await supabase.auth.signInWithOAuth({

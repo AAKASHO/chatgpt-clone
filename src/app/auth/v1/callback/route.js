@@ -4,6 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 
 export async function GET(request) {
   const url = new URL(request.url);
+ console.log(url);
   const { searchParams, origin } = url;
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/';

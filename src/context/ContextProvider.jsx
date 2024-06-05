@@ -18,6 +18,7 @@ const ContextProvider = ({ children }) => {
   const [recentPrompts, setRecentPrompts] = useState("");
   const [displayResult, setDisplayResult] = useState(false);
   const [prevPrompts, setPrevPrompts] = useState([]);
+  const [history,setHistory]=useState([]);
 
   // paragraph delay
   const paragraphDelay = (index, newWord) => {
@@ -32,6 +33,15 @@ const ContextProvider = ({ children }) => {
     setLoading(true);
     if(result)setMessages((pre)=>[...pre,{content:result,role:"ai"}]);
     setMessages((pre)=>[...pre,{content:input,role:"user"}]);
+    const message = { role:"user", parts:[{text:input}] };
+    setHistory(prev => {
+      const updatedHistory = [...prev, message];
+      // If the length of history exceeds 10, remove the first message
+      if (updatedHistory.length > 20) {
+        updatedHistory.shift();
+      }
+      return updatedHistory;
+    });
     setInput("");
     // setMessages((pre)=>[...pre,result]);
     setResult("");
@@ -47,7 +57,9 @@ const ContextProvider = ({ children }) => {
 
     await createMessage('user', input,chatId,currentDate);
     setRecentPrompts(input);
-    const response = input ? await runChat(input) : await runChat(prompt);
+    console.log("history");
+    console.log(history);
+    const response = input ? await runChat(input,history) : await runChat(prompt,history);
     const boldResponse = response.split("**");
     let newArray = "";
     for (let i = 0; i < boldResponse.length; i++) {
@@ -62,6 +74,16 @@ const ContextProvider = ({ children }) => {
     const currentDatetime=new Date().toISOString();
     console.log("print2")
     await createMessage('ai', newRes,chatId,currentDatetime);
+
+    const message1 = { role:"model", parts:[{text:newRes}] };
+    setHistory(prev => {
+      const updatedHistory = [...prev, message1];
+      // If the length of history exceeds 10, remove the first message
+      if (updatedHistory.length > 20) {
+        updatedHistory.shift();
+      }
+      return updatedHistory;
+    });
 
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];

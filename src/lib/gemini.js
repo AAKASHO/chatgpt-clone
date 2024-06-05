@@ -6,12 +6,14 @@ import {
   HarmCategory,
   HarmBlockThreshold,
 } from "@google/generative-ai";
+// import { useState } from "react";
 
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 console.log(API_KEY);
 
-async function runChat(prompt) {
+// let hist=[];
+async function runChat(prompt,hist) {
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
@@ -35,21 +37,30 @@ async function runChat(prompt) {
       category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
+
     {
       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
       threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
   ];
 
+  console.log("hist")
+  console.log(hist);
   const chat = model.startChat({
     generationConfig,
     safetySettings,
-    history: [],
+    history: hist,
   });
+  
+  const model1 = genAI.getGenerativeModel({ model: "embedding-001"});
 
+  const text = "The quick brown fox jumps over the lazy dog."
+
+  const result1 = await model1.embedContent(prompt);
+  const embedding = result1.embedding;
+  console.log(embedding.values);
   const result = await chat.sendMessage(prompt);
   const response = result.response;
-  // console.log(response.text());
   return response.text();
 }
 
