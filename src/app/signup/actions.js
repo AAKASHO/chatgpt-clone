@@ -21,8 +21,8 @@ export async function signup(formData) {
       redirect('/error');
     }
   
-    // revalidatePath('/', 'layout');
-    // redirect('/');
+    revalidatePath('/email', 'layout');
+    redirect('/email');
   }
 
   export async function signInWithGoogle() {

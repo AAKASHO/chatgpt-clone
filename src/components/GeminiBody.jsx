@@ -16,7 +16,7 @@ import { useSearchParams } from 'next/navigation'
 
 
 
-const GeminiBody = () => {
+const GeminiBody =() => {
   const {
     submit,
     recentPrompts,
@@ -30,12 +30,15 @@ const GeminiBody = () => {
     fetchMessages,
     setPrevPrompts,
     setMessages,
+    GetUser,
+    user
   } = useContext(Context);
 
   const [ChatId,setChatId]=useState(null);
 
   const router = useRouter();
   const [messageSent, setMessageSent] = useState(false);
+  // const [user, setUser] = useState(false);
 
   useEffect(()=>{
     console.log(messageSent);
@@ -62,6 +65,11 @@ const search = searchParams.get('chat_id');
 
   },[search]);
 
+  useEffect(()=>{
+    GetUser();
+  },[])
+  // console.log(user);
+
 
   const handleMessageSend = () => {
     // e.preventDefault();
@@ -80,7 +88,6 @@ const search = searchParams.get('chat_id');
       submit();
     }
   };
-
   // console.log(messages);
   // console.log(loading, "loading");
   return (
@@ -96,7 +103,7 @@ const search = searchParams.get('chat_id');
             <div className="my-12 text-5xl font-medium p-5">
               <p>
                 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                  Hello, Aakash Kumar Prasad
+                  Hello, {user.user_metadata?.name||"Aakash Kumar Prasad"}
                 </span>
               </p>
               <p>How can I help you today?</p>

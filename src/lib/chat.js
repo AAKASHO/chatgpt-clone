@@ -42,6 +42,13 @@ export const createMessage = async (role, content, chatId,time) => {
   return content;
 };
 
+export const retname=async()=>{
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log(user);
+  return user;
+}
+
 export const fetchChatHistory = async (chatId) => {
     const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser();

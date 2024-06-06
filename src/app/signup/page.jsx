@@ -5,7 +5,7 @@ import { signInWithGoogle, signup } from './actions.js'
 import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 
-export default function LoginPage() {
+export default function SignUpPage() {
 
   const [isClient, setIsClient] = useState(false);
 

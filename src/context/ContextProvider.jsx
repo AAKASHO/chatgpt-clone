@@ -3,7 +3,7 @@ import runChat from "@/lib/gemini";
 import React, { createContext, useEffect, useState } from "react";
 // import supabase from '';
 import { createClient } from "@/utils/supabase/client";
-import { createMessage, fetchChatHistory, fetchHistory } from "@/lib/chat";
+import { createMessage, fetchChatHistory, fetchHistory, retname } from "@/lib/chat";
 // import { useRouter } from "next/router";
 
 
@@ -19,6 +19,7 @@ const ContextProvider = ({ children }) => {
   const [displayResult, setDisplayResult] = useState(false);
   const [prevPrompts, setPrevPrompts] = useState([]);
   const [history,setHistory]=useState([]);
+  const [user,setUser]=useState([]);
 
   // paragraph delay
   const paragraphDelay = (index, newWord) => {
@@ -37,7 +38,7 @@ const ContextProvider = ({ children }) => {
     setHistory(prev => {
       const updatedHistory = [...prev, message];
       // If the length of history exceeds 10, remove the first message
-      if (updatedHistory.length > 20) {
+      if (updatedHistory.length > 100) {
         updatedHistory.shift();
       }
       return updatedHistory;
@@ -79,7 +80,7 @@ const ContextProvider = ({ children }) => {
     setHistory(prev => {
       const updatedHistory = [...prev, message1];
       // If the length of history exceeds 10, remove the first message
-      if (updatedHistory.length > 20) {
+      if (updatedHistory.length > 100) {
         updatedHistory.shift();
       }
       return updatedHistory;
@@ -104,6 +105,13 @@ const ContextProvider = ({ children }) => {
       setMessages(data);
     }
   };
+
+  const GetUser=async()=>{
+    const userData=await retname();
+    setUser("userDatah");
+    setUser(userData);
+    // return userData;
+  }
 
   const fetchChats = async () => {
       const data=await fetchHistory();
@@ -136,7 +144,9 @@ const ContextProvider = ({ children }) => {
     fetchMessages,
     fetchChats,
     setResult,
-    setMessages
+    setMessages,
+    GetUser,
+    user
   };
   return (
     <Context.Provider value={contextValue}>
