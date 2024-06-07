@@ -53,7 +53,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="supabase anon key"
 NEXT_PUBLIC_GEMINI_API_KEY="your gemini api key"
 ```
 
-
+also allow for google login in your supabase and read the documentation for how to allow that 
 
 
 **Running the Project using yarn**
