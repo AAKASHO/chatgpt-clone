@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   CircleUserRound,
   Compass,
@@ -31,21 +31,32 @@ const GeminiBody =() => {
     setPrevPrompts,
     setMessages,
     GetUser,
-    user
+    user,
+    sending
   } = useContext(Context);
 
   const [ChatId,setChatId]=useState(null);
 
   const router = useRouter();
   const [messageSent, setMessageSent] = useState(false);
+  const [newMessageSent, setNewMessageSent] = useState(false);
+  const bottomRef = useRef(null);
+  const containerRef = useRef(null);
   // const [user, setUser] = useState(false);
 
   useEffect(()=>{
     console.log(messageSent);
+
     console.log(ChatId);
     if(messageSent&&ChatId){
       // fetchMessages();
       submit();
+      if(newMessageSent){
+        console.log("added1");
+
+        setPrevPrompts((pre)=>[{id:ChatId,message:input},...pre]);
+        setNewMessageSent(false);
+      }
       setMessageSent(false);
     }
   },[messageSent])
@@ -67,8 +78,13 @@ const search = searchParams.get('chat_id');
 
   useEffect(()=>{
     GetUser();
+    bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
   },[])
   // console.log(user);
+
+  useEffect(()=>{
+    bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+  },[result,sending,messages])
 
 
   const handleMessageSend = () => {
@@ -82,10 +98,17 @@ const search = searchParams.get('chat_id');
       router.push(`/?chat_id=${newChatId}`);
       setMessageSent(true);
       setChatId(newChatId);
-      setPrevPrompts((pre)=>[{id:newChatId,message:input},...pre]);
-    }
-    else{
-      submit();
+      setNewMessageSent(true);
+      }
+      else{
+        submit();
+        console.log("added1");
+        if(newMessageSent){
+          console.log("added1");
+
+          setPrevPrompts((pre)=>[{id:chatId,message:input},...pre]);
+          setNewMessageSent(false);
+        }
     }
   };
   // console.log(messages);
@@ -140,7 +163,7 @@ const search = searchParams.get('chat_id');
             </div>
           </>
         ) : (
-          <div className="overflow-y-auto max-h-[73vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="overflow-y-auto max-h-[73vh] scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}  ref={containerRef}>
             <div>
               {messages.map((message, index) => (
                 <div key={index} className="my-10 flex items-center gap-5">
@@ -183,7 +206,7 @@ const search = searchParams.get('chat_id');
                 }
               {loading?<span className="loader"></span>:
                 <p
-                  className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"}`}
+                  className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"} mb-10`}
                   dangerouslySetInnerHTML={{ __html: result }}
                   >
                 </p>
@@ -191,6 +214,7 @@ const search = searchParams.get('chat_id');
 
               
             </div>}
+            <div ref={bottomRef}></div>
           </div>
         )}
         <div className="absolute bottom-0 w-full max-w-[900px] px-5 m-auto">

@@ -21,6 +21,7 @@ const ContextProvider = ({ children }) => {
   const [history,setHistory]=useState([]);
   const [user,setUser]=useState([]);
   const [isOpen, setIsOpen] = useState(true);
+  const [sending, setSending] = useState(false);
 
   // paragraph delay
   const paragraphDelay = (index, newWord) => {
@@ -76,9 +77,10 @@ const ContextProvider = ({ children }) => {
     let newRes2 = newRes1.split(" ");
     const currentDatetime=new Date().toISOString();
     console.log("print2")
-    await createMessage('ai', newRes,chatId,currentDatetime);
+    await createMessage('ai', newRes1,chatId,currentDatetime);
+    // setPrevPrompts((pre)=>[{id:chatId,message:input},...pre]);
 
-    const message1 = { role:"model", parts:[{text:newRes}] };
+    const message1 = { role:"model", parts:[{text:newRes1}] };
     setHistory(prev => {
       const updatedHistory = [...prev, message1];
       // If the length of history exceeds 10, remove the first message
@@ -89,10 +91,12 @@ const ContextProvider = ({ children }) => {
     });
 
     setLoading(false);
+    setSending(true);
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
       paragraphDelay(i, newWord + " ");
     }
+    setSending(false);
     // console.log(messages);
   };
 

@@ -21,14 +21,19 @@ const Sidebar = () => {
 
     useEffect(()=>{
       fetchChats();
+      console.log("hello sidebar");
     },[]);
   const loadPrompt = (prompt) => {
     // window.location.href=`/?chat_id=${prompt?.id}`;
     // redirect(``)
-
-    router.push(`/?chat_id=${prompt?.id}`);
-    setResult(null);
-    setDisplayResult(false);
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const chatId = searchParams.get("chat_id");
+    if(chatId!=prompt?.id){
+      router.push(`/?chat_id=${prompt?.id}`);
+      setResult(null);
+      setDisplayResult(false);
+    }
     
   };
   return (
