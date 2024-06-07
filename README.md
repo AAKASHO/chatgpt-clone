@@ -37,8 +37,24 @@ cd chatgpt-clone
 Install dependencies using yarn:
 
 ```bash
-yarn
+yarn/npm
 ```
+Create a .env.local file
+
+add that to the root folder 
+
+and add the folloeing code in that
+
+```
+NEXT_PUBLIC_SUPABASE_URL="your supabase url code"
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY="supabase anon key"
+
+NEXT_PUBLIC_GEMINI_API_KEY="your gemini api key"
+```
+
+
+
 
 **Running the Project using yarn**
 
