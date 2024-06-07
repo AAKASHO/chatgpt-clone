@@ -88,12 +88,12 @@ const ContextProvider = ({ children }) => {
       return updatedHistory;
     });
 
+    setLoading(false);
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
       paragraphDelay(i, newWord + " ");
     }
     // console.log(messages);
-    setLoading(false);
   };
 
   const fetchMessages = async () => {

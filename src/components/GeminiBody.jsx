@@ -177,15 +177,19 @@ const search = searchParams.get('chat_id');
             </div> */}
             {displayResult&&<div className="flex items-start gap-5">
               {
-                 theme=="dark"?
-                 <img src="/chatgptlogobs.png" alt="" />:
-                 <img src="/chatgptlogows.png" alt="" />   
+                theme=="dark"?
+                <img src="/chatgptlogobs.png" alt="" />:
+                <img src="/chatgptlogows.png" alt="" />   
+                }
+              {loading?<span className="loader"></span>:
+                <p
+                  className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"}`}
+                  dangerouslySetInnerHTML={{ __html: result }}
+                  >
+                </p>
               }
 
-              <p
-                className={`text-md font-normal loading-6 ${theme === "dark" ? "text-gray-400" : "text-black"}`}
-                dangerouslySetInnerHTML={{ __html: result }}
-              ></p>
+              
             </div>}
           </div>
         )}
