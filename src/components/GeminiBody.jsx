@@ -103,34 +103,34 @@ const search = searchParams.get('chat_id');
             <div className="my-12 text-5xl font-medium p-5">
               <p>
                 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                  Hello, {user.user_metadata?.name||"Aakash Kumar Prasad"}
+                  Hello, {user?.user_metadata?.name||"Aakash Kumar Prasad"}
                 </span>
               </p>
               <p>How can I help you today?</p>
             </div>
             <div className="grid grid-cols-4 gap-5 p-5">
-              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer">
+              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer" onClick={()=>{setInput("Suggest beautiful places to see on an upcoming road trip")}}>
                 <p>Suggest beautiful places to see on an upcoming road trip</p>
                 <Compass
                   size={35}
                   className="p-1 absolute bottom-2 right-2 bg-bgPrimaryColor text-softTextColor rounded-full"
                 />
               </div>
-              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer">
+              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer" onClick={()=>{setInput("What’s the reaction to and impact of autonomous vehicles")}}>
                 <p>What’s the reaction to and impact of autonomous vehicles</p>
                 <Lightbulb
                   size={35}
                   className="p-1 absolute bottom-2 right-2 bg-bgPrimaryColor text-softTextColor rounded-full"
                 />
               </div>
-              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer">
+              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer" onClick={()=>{setInput("Come up with a recipe for an upcoming event")}}>
                 <p>Come up with a recipe for an upcoming event</p>
                 <Youtube
                   size={35}
                   className="p-1 absolute bottom-2 right-2 bg-bgPrimaryColor text-softTextColor rounded-full"
                 />
               </div>
-              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer">
+              <div className="h-48 p-4 bg-bgSecondaryColor rounded-xl relative cursor-pointer" onClick={()=>{setInput("Evaluate and rank common camera categories")}}>
                 <p>Evaluate and rank common camera categories</p>
                 <Code
                   size={35}

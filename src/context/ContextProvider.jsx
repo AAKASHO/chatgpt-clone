@@ -20,6 +20,7 @@ const ContextProvider = ({ children }) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
   const [history,setHistory]=useState([]);
   const [user,setUser]=useState([]);
+  const [isOpen, setIsOpen] = useState(true);
 
   // paragraph delay
   const paragraphDelay = (index, newWord) => {
@@ -71,12 +72,13 @@ const ContextProvider = ({ children }) => {
       }
     }
     let newRes = newArray.split("*").join("</br>");
-    let newRes2 = newRes.split(" ");
+    let newRes1 = newRes.split("\n").join("</br>");
+    let newRes2 = newRes1.split(" ");
     const currentDatetime=new Date().toISOString();
     console.log("print2")
     await createMessage('ai', newRes,chatId,currentDatetime);
 
-    const message1 = { role:"model", parts:[{text:newRes}] };
+    const message1 = { role:"model", parts:[{text:newRes2}] };
     setHistory(prev => {
       const updatedHistory = [...prev, message1];
       // If the length of history exceeds 10, remove the first message
@@ -125,6 +127,9 @@ const ContextProvider = ({ children }) => {
   const toggle = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
+  const toggleBar = () => {
+    setIsOpen(!isOpen);
+  };
   const contextValue = {
     theme,
     toggle,
@@ -146,7 +151,10 @@ const ContextProvider = ({ children }) => {
     setResult,
     setMessages,
     GetUser,
-    user
+    user,
+    isOpen,
+    setIsOpen,
+    toggleBar
   };
   return (
     <Context.Provider value={contextValue}>

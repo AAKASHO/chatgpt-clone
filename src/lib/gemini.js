@@ -54,12 +54,22 @@ async function runChat(prompt,hist) {
   
   const model1 = genAI.getGenerativeModel({ model: "embedding-001"});
 
-  const text = "The quick brown fox jumps over the lazy dog."
+  // const text = "The quick brown fox jumps over the lazy dog."
 
   const result1 = await model1.embedContent(prompt);
   const embedding = result1.embedding;
   console.log(embedding.values);
+  const result2 = await chat.sendMessageStream(prompt);
   const result = await chat.sendMessage(prompt);
+  let text = '';
+  for await (const chunk of result2.stream) {
+    const chunkText = chunk.text();
+    console.log("chunkText");
+    console.log(chunkText);
+    text += chunkText;
+    console.log("text");
+    console.log(text);
+  }
   const response = result.response;
   return response.text();
 }
