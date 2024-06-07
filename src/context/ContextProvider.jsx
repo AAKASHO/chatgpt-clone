@@ -78,7 +78,7 @@ const ContextProvider = ({ children }) => {
     console.log("print2")
     await createMessage('ai', newRes,chatId,currentDatetime);
 
-    const message1 = { role:"model", parts:[{text:newRes2}] };
+    const message1 = { role:"model", parts:[{text:newRes}] };
     setHistory(prev => {
       const updatedHistory = [...prev, message1];
       // If the length of history exceeds 10, remove the first message
